@@ -306,6 +306,11 @@
       margin: 0;
     }
 
+    .note-card {
+      padding: 13px 15px;
+      background: #fbfcfd;
+    }
+
     canvas { display: none; }
 
     /* 세로형 기본 */
@@ -316,7 +321,8 @@
       .result-percent { font-size: 28px; }
     }
 
-    /* 가로형/넓은 화면 반응형 */
+    /* 가로형/넓은 화면 반응형
+       왼쪽 카메라 카드 높이 = 오른쪽 카드 묶음의 전체 높이 */
     @media (orientation: landscape) and (min-width: 700px), (min-width: 980px) {
       .wrap {
         padding-top: 14px;
@@ -329,20 +335,43 @@
       .app-grid {
         grid-template-columns: minmax(360px, 1.05fr) minmax(320px, 0.95fr);
         gap: 16px;
+        align-items: stretch;
       }
 
-      .left-column,
+      .left-column {
+        display: flex;
+        min-height: 0;
+      }
+
       .right-column {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        gap: 14px;
         min-height: 0;
       }
 
       .camera-card {
-        position: sticky;
-        top: 12px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
       }
 
       .camera-box {
-        aspect-ratio: 4 / 3;
+        flex: 1 1 auto;
+        min-height: 260px;
+        aspect-ratio: auto;
+      }
+
+      .prob-card {
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .note-card {
+        align-self: end;
       }
 
       .prob-grid {
@@ -369,7 +398,7 @@
       }
 
       .camera-box {
-        aspect-ratio: 16 / 10;
+        min-height: 220px;
       }
 
       .guide-label {
@@ -416,7 +445,7 @@
           <div id="resultAccent" class="result-accent"></div>
         </section>
 
-        <section class="card">
+        <section class="card prob-card">
           <div class="prob-title">판정 확률</div>
 
           <div class="prob-grid">
@@ -453,13 +482,11 @@
             </div>
           </div>
 
-          <p class="legend-note">확률은 최근 여러 프레임을 평균한 값입니다. 확신도가 낮거나 두 유형의 확률이 비슷하면 ‘판정 보류’로 표시합니다.</p>
         </section>
 
-        <section class="card">
+        <section class="card note-card">
           <p class="hint">
-            실제 성능을 확인할 때는 학습에 사용하지 않은 고추로 시험하는 것이 좋습니다.
-            거리·각도·조명·배경을 바꿔 가며 같은 고추의 판정이 안정적으로 유지되는지도 함께 확인해 보세요.
+            확률은 최근 여러 프레임을 평균한 값입니다. 확신도가 낮거나 두 유형의 확률이 비슷하면 ‘판정 보류’로 표시합니다.
           </p>
         </section>
       </div>
